@@ -1,0 +1,7 @@
+#!/bin/sh
+# note: might need changing if more desktops added
+
+for desktop in I II III IV V VI VII VIII IX X; do {
+	bspc desktop $desktop --to-monitor pointed;
+}; done;
+bspc monitor pointed --focus;

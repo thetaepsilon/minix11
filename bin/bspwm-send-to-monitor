@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# this could be created as e.g. a symlink to something in /run/user/$uid
+target="$(cat ~/.config/bspwm_external_monitor)" || exit $?;
+
+bspc node focused --to-monitor "$target";
+bspc monitor "$target" --focus;
