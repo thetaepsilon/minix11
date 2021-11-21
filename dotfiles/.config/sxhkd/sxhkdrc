@@ -1,5 +1,4 @@
-#
-# wm independent hotkeys
+# [core]
 #
 
 # terminal emulator
@@ -10,17 +9,36 @@ super + Return
 super + Escape
 	pkill -USR1 -x sxhkd
 
-##portable-end
-
-#
-# hotkeys for WM-assisting programs
+# [media-key-hooks]
 #
 
-super + p
+XF86MonBrightnessUp
+	backlightup
+
+XF86MonBrightnessDown
+	backlightdown
+
+
+
+
+
+# [application-specific]
+#
+
+# grab screen to temp. image
+super + shift + c
+	scrot --overwrite ~/tmp/screengrab.png
+
+# ... and edit in mtpaint (preferably on a different virtual desktop)
+super + shift + v
+	mtpaint ~/tmp/screengrab.png
+
+super + r
 	dmenu_run
 
-#
-# bspwm hotkeys
+
+
+# [wm-specific]
 #
 
 # quit bspwm normally
@@ -32,27 +50,13 @@ super + shift + q
 super + {_,shift + }w
 	bspc node -{c,k}
 
-# alternate between the tiled and monocle layout
-super + m
-	bspc desktop -l next
-
-
-#
-# state/flags
-#
-
 # set the window state
-super + {t,shift + t,s,f}
-	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
-
-# set the node flags
-super + ctrl + {x,y,z}
-	bspc node -g {locked,sticky,private}
+super + {t,s,f}
+	bspc node -t {tiled,floating,fullscreen}
 
 # focus the next/previous desktop
 super + bracket{left,right}
 	bspc desktop -f {prev,next}
-
 
 # hotkeys for the "numbered" desktops bound to the number row
 super + {_,shift + }{1,2,3,4,5,6,7,8,9,0}
@@ -64,49 +68,24 @@ super + {_,shift + }{Up,Down,Left,Right}
 	bspc node focused {--focus,--swap} focused#{north,south,west,east}; \
 	bspc node pointed {_,--focus}
 
-#
-# preselect
-#
-
 # preselect the direction
 super + ctrl + {Left,Down,Up,Right}
 	bspc node -p {west,south,north,east}
-
-# preselect the ratio
-super + ctrl + {1-9}
-	bspc node -o 0.{1-9}
 
 # cancel the preselection for the focused node
 super + ctrl + space
 	bspc node -p cancel
 
-# cancel the preselection for the focused desktop
-super + ctrl + shift + space
-	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 
-
-#
-# monitor managing extras
+# [wm-support-scripts]
 #
 
-# call script to move all of the "numbered" desktops to where the pointer is.
-# useful when one needs to dock a laptop with an external display,
-# though it should be noted that sometimes bspwm can bug out a little with this
-# (it still thinks the x11 desktop is the size of the larger display).
+# call script to move all of the "numbered" desktops to where the pointer is
 super + ctrl + m
 	bspwm-drag-to-monitor
 
-# move the currently focused window to external display (configured out of band)
+# call script which moves the currently focused window to whatever has been declared "the" external monitor at the time
 super + shift + x
-	bspwm-send-to-monitor
+	extmonitor
 
-
-
-# media key bindings, add as appropriate (e.g. pulseaudio bindings)
-
-XF86MonBrightnessUp
-	backlightup
-
-XF86MonBrightnessDown
-	backlightdown
